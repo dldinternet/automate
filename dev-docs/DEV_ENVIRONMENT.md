@@ -259,7 +259,7 @@ You can interact with vault directly using the `vault` command:
 export VAULT_ADDR=https://vault.chef.co:8200
 # If you are in the studio, install the cacerts:
 export VAULT_CACERT="$(hab pkg path core/cacerts)/ssl/certs/cacert.pem"
-vault kv list 'secrets/a2'
+vault kv list 'secret/a2'
 ```
 
 ## Working with Automate UI
