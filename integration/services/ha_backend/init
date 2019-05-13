@@ -29,7 +29,6 @@ ha_backend_setup() {
     echo "Generating elasticsearch ssl keys"
     # ganked from a2-ha-backend
     certdir="$HA_BACKEND_DIR/certificates"
-    echo "CERTDIR IS $certdir"
     mkdir -p $certdir
 
     RANDFILE=$certdir/.rnd
@@ -85,7 +84,8 @@ ha_backend_setup() {
     for try in {1..60}; do
         echo "Trying to create dbuser"
         errcode="0"
-        output="$(docker exec --env PGPASSWORD="thisisapassword" $ha_backend_container1 hab pkg exec core/postgresql11 psql \
+        output="$(docker exec --env PGPASSWORD="thisisapassword" --env HAB_LICENSE=accept-no-persist $ha_backend_container1 \
+	hab pkg exec core/postgresql11 psql \
             -h 127.0.0.1 -p 7432 -U admin -d postgres -c \
             "CREATE USER dbuser WITH PASSWORD 'thisisapassword'")" || errcode="$?"
         if [ "$errcode" -eq "0" ]; then
